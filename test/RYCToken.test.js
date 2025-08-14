@@ -29,19 +29,20 @@ describe("RYC Token", function () {
       expect(await rycToken.decimals()).to.equal(18);
     });
 
-    it("Should start with zero total supply", async function () {
-      expect(await rycToken.totalSupply()).to.equal(0);
+    it("Should start with 100 million total supply", async function () {
+      expect(await rycToken.totalSupply()).to.equal(ethers.parseEther("100000000"));
     });
   });
 
   describe("Minting", function () {
     it("Should allow owner to mint tokens", async function () {
       const mintAmount = ethers.parseEther("1000");
+      const initialSupply = ethers.parseEther("100000000");
       
       await rycToken.mint(addr1.address, mintAmount);
       
       expect(await rycToken.balanceOf(addr1.address)).to.equal(mintAmount);
-      expect(await rycToken.totalSupply()).to.equal(mintAmount);
+      expect(await rycToken.totalSupply()).to.equal(initialSupply + mintAmount);
     });
 
     it("Should not allow non-owner to mint tokens", async function () {
@@ -55,13 +56,14 @@ describe("RYC Token", function () {
     it("Should allow multiple mints", async function () {
       const mintAmount1 = ethers.parseEther("500");
       const mintAmount2 = ethers.parseEther("300");
+      const initialSupply = ethers.parseEther("100000000");
       
       await rycToken.mint(addr1.address, mintAmount1);
       await rycToken.mint(addr2.address, mintAmount2);
       
       expect(await rycToken.balanceOf(addr1.address)).to.equal(mintAmount1);
       expect(await rycToken.balanceOf(addr2.address)).to.equal(mintAmount2);
-      expect(await rycToken.totalSupply()).to.equal(mintAmount1 + mintAmount2);
+      expect(await rycToken.totalSupply()).to.equal(initialSupply + mintAmount1 + mintAmount2);
     });
   });
 

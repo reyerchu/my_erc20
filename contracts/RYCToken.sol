@@ -17,7 +17,11 @@ contract RYCToken is ERC20, Ownable {
     constructor(address initialOwner) 
         ERC20("RYC Token", "RYC") 
         Ownable(initialOwner)
-    {}
+    {
+        // 鑄造 1 億個代幣給擁有者
+        uint256 initialSupply = 100_000_000 * 10**18; // 1億個代幣 (18位小數)
+        _mint(initialOwner, initialSupply);
+    }
     
     /**
      * @dev Mint new tokens. Only the owner can call this function.

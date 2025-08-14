@@ -6,13 +6,13 @@ async function main() {
   // ===========================================
   
   // 請替換為您部署的合約地址
-  const CONTRACT_ADDRESS = "0x47dBc5Bce35DbCE1F1E110EBCd8762D2B0287df9";
+  const CONTRACT_ADDRESS = "0x3F7944D4d485417331A03Bfce2C264c3CBF6F865";
   
   // 請替換為接收代幣的地址 (使用您的錢包地址)
   const RECIPIENT_ADDRESS = "0x59DCd8ADE37dfa476660D2fFC14a7eDFCf7fd2Aa";
   
-  // 鑄造的代幣數量 (以 ETH 為單位，例如 "1000" = 1000 個代幣)
-  const MINT_AMOUNT = "10000";
+  // 鑄造的代幣數量 (以 ETH 為單位，例如 "1000000" = 100萬個代幣)
+  const MINT_AMOUNT = "1000000";
   
   // ===========================================
   // 檢查配置
