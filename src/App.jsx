@@ -234,6 +234,7 @@ function App() {
   const [status, setStatus] = useState('');
   const [activeTab, setActiveTab] = useState('transfer');
   const [networkInfo, setNetworkInfo] = useState(null);
+  const [tokenInMetaMask, setTokenInMetaMask] = useState(false);
   
   // 表單狀態
   const [transferTo, setTransferTo] = useState('');
@@ -337,6 +338,9 @@ function App() {
 
       // 載入初始數據
       await loadContractData(contract, account);
+
+      // 檢查代幣是否已在 MetaMask 中
+      await checkTokenInMetaMask();
 
       setStatus('錢包連接成功!', 'success');
     } catch (error) {
@@ -509,6 +513,73 @@ function App() {
     }
   };
 
+  // 檢查代幣是否已在 MetaMask 中
+  const checkTokenInMetaMask = async () => {
+    try {
+      if (!window.ethereum) return false;
+
+      // 嘗試獲取代幣餘額，如果成功則表示代幣已在 MetaMask 中
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+      
+      // 檢查當前帳戶的代幣餘額
+      if (account) {
+        const balance = await contract.balanceOf(account);
+        setTokenInMetaMask(true);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      setTokenInMetaMask(false);
+      return false;
+    }
+  };
+
+  // 添加代幣到 MetaMask
+  const addTokenToMetaMask = async () => {
+    try {
+      setLoading(true);
+      setStatus('正在添加代幣到 MetaMask...');
+
+      if (!window.ethereum) {
+        throw new Error('請安裝 MetaMask!');
+      }
+
+      // 獲取代幣信息
+      const [name, symbol, decimals] = await Promise.all([
+        contract.name(),
+        contract.symbol(),
+        contract.decimals()
+      ]);
+
+      // 添加代幣到 MetaMask
+      const wasAdded = await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: CONTRACT_ADDRESS,
+            symbol: symbol,
+            decimals: decimals,
+                         image: '/token-icon.svg' // 代幣圖標
+          }
+        }
+      });
+
+      if (wasAdded) {
+        setStatus('代幣已成功添加到 MetaMask!', 'success');
+        setTokenInMetaMask(true);
+      } else {
+        setStatus('用戶取消了添加代幣', 'info');
+      }
+    } catch (error) {
+      console.error('添加代幣錯誤:', error);
+      setStatus(`添加代幣失敗: ${error.message}`, 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // 監聽帳戶和網路變化
   useEffect(() => {
     if (window.ethereum) {
@@ -610,6 +681,29 @@ function App() {
             <div className="balance-display">
               <h3>總供應量</h3>
               <div className="amount">{parseFloat(totalSupply).toLocaleString()} RYC</div>
+            </div>
+            
+            <div className="add-token-section">
+              <h3>MetaMask 代幣管理</h3>
+              {tokenInMetaMask ? (
+                <>
+                  <p>✅ RYC Token 已在您的 MetaMask 錢包中</p>
+                  <div className="token-status">
+                    <span className="status-badge success">已添加</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>一鍵將 RYC Token 添加到您的 MetaMask 錢包</p>
+                  <button 
+                    className="button add-token-button" 
+                    onClick={addTokenToMetaMask}
+                    disabled={loading}
+                  >
+                    {loading ? <span className="loading"></span> : '🪙 添加到 MetaMask'}
+                  </button>
+                </>
+              )}
             </div>
           </div>
 

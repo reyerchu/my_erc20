@@ -247,3 +247,62 @@ code {
 .network-indicator.incorrect {
   color: #dc3545;
 }
+
+/* Add token section styles */
+.add-token-section {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 16px 0;
+  border: 2px solid #ffc107;
+}
+
+.add-token-section h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.add-token-section p {
+  margin: 0 0 16px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.add-token-button {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%) !important;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.add-token-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+.add-token-button:disabled {
+  background: #ccc !important;
+  transform: none;
+  box-shadow: none;
+}
+
+.token-status {
+  margin-top: 12px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.success {
+  background: #28a745;
+  color: white;
+}
