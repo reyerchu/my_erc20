@@ -4,22 +4,35 @@
   "description": "RYC Token ERC20 Smart Contract",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [
     "ethereum",
     "smart-contract",
     "erc20",
-    "token"
+    "token",
+    "web3",
+    "react"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.0"
+    "@openzeppelin/contracts": "^5.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "web3": "^4.3.0",
+    "ethers": "^6.8.1"
   },
   "devDependencies": {
     "hardhat": "^2.19.0",
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
   }
 } 
